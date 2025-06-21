@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Globalization;
+using ZOSS.Teste.Back.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,10 +42,8 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddDbContext<>(options =>
-{
-    options.UseMySQL();
-});
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
